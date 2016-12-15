@@ -1,4 +1,4 @@
-# Install script for directory: /home/srijit/Desktop/cs251_base_code/external/src/Box2D
+# Install script for directory: /home/srijit/Desktop/W UAV/cs251_base_code/external/src/Box2D
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -34,7 +34,7 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
-  include("/home/srijit/Desktop/cs251_base_code/external/src/Box2D/build251/Box2D/cmake_install.cmake")
+  include("/home/srijit/Desktop/W UAV/cs251_base_code/external/src/Box2D/build251/Box2D/cmake_install.cmake")
 
 endif()
 
@@ -46,5 +46,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/srijit/Desktop/cs251_base_code/external/src/Box2D/build251/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/srijit/Desktop/W UAV/cs251_base_code/external/src/Box2D/build251/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

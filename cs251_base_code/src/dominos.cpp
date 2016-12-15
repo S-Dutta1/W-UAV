@@ -83,35 +83,39 @@ namespace cs251
     {
       b2Body* tblp;
 
-      b2Vec2 vertices[20];
-      vertices[0].Set(0.5f, 0);
+      b2Vec2 vertices[24];
 
-      vertices[1].Set(2, 2);
-      vertices[2].Set(5, 2);
-      vertices[3].Set(8, 4);
-      vertices[4].Set(10,5);
-      vertices[5].Set(10,6);
-      vertices[6].Set(8,7);
-      vertices[7].Set(5,10);
-      vertices[8].Set(2,10);
+      vertices[0].Set(0.2f, 0);
+      vertices[1].Set(2, 0.3f);
+      vertices[2].Set(4, 0.9f);
+      vertices[3].Set(6, 1.6f);
+      vertices[4].Set(8,2.5f);
+      vertices[5].Set(10,3.8f);
 
-      vertices[9].Set(0.5f,12);
-      vertices[10].Set(-0.5f,12);
+      vertices[6].Set(10,4.2f);
+      vertices[7].Set(8,5.5f);
+      vertices[8].Set(6,6.4f);
+      vertices[9].Set(4,7.1f);
+      vertices[10].Set(2,7.7f);
+      vertices[11].Set(0.2f,8);
 
-      vertices[11].Set(-2, 10);
-      vertices[12].Set(-5, 10);
-      vertices[13].Set(-8, 7);
-      vertices[14].Set(-10, 6);
-      vertices[15].Set(-10,5);
-      vertices[16].Set(-8,4);
-      vertices[17].Set(-5,2);
-      vertices[18].Set(-2,2);
+      vertices[12].Set(-0.2f, 8);
+      vertices[13].Set(-2, 7.7f);
+      vertices[14].Set(-4, 7.1f);
+      vertices[15].Set(-6, 6.4f);
+      vertices[16].Set(-8,5.5f);
+      vertices[17].Set(-10,4.2f);
 
-      vertices[19].Set(-0.5f,0);
+      vertices[18].Set(-10,3.8f);
+      vertices[19].Set(-8,2.5f);
+      vertices[20].Set(-6,1.6f);
+      vertices[21].Set(-4,0.9f);
+      vertices[22].Set(-2,0.3f);
+      vertices[23].Set(-0.2f,0);
       
       
       
-      int count = 20;
+      int count = 24;
       b2PolygonShape polygon;
       polygon.Set(vertices, count);
 
