@@ -177,7 +177,7 @@ void base_sim_t::step(settings_t* settings)
     fnear_isFalse++;//time for false fire detection
 
   //cout<<fnear_isFalse<<endl;
-  if(fnear_isFalse == 500)
+  if(fnear_isFalse == 400)
   {
     cop_upper->SetLinearVelocity(vel);
   }
@@ -188,11 +188,21 @@ void base_sim_t::step(settings_t* settings)
     cop_upper->SetLinearVelocity(zero_vel);
   }  
 
+  if(both_onffar==1)
+    monitoring++;  
 
+  if(monitoring==500)
+  {
+    cop_upper->SetLinearVelocity(-vel);
+    cop_lower->SetLinearVelocity(-vel);
+  }
 
-
-
-
+  if(b2Distance(cop_upper->GetWorldCenter(),blimp1->GetWorldCenter())<7.002f && monitoring>450)
+  {
+    //cout<<"hey"<<endl;
+    cop_upper->SetLinearVelocity(zero_vel);
+    cop_lower->SetLinearVelocity(zero_vel);
+  }
 
 
 
