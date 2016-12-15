@@ -182,7 +182,11 @@ void base_sim_t::step(settings_t* settings)
     cop_upper->SetLinearVelocity(vel);
   }
 
-  
+  if(b2Distance(cop_upper->GetWorldCenter(),ffar->GetWorldCenter())<24.2f && ffar_detected ==1)
+  {
+    both_onffar=1;
+    cop_upper->SetLinearVelocity(zero_vel);
+  }  
 
 
 
