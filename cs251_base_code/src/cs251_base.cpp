@@ -23,7 +23,7 @@
 using namespace std;
 using namespace cs251;
 
-int fnear_detected=0,ffar_detected=0,fnear_isFalse=0,both_onffar=0,monitoring=0,blimp_reached=0,all_done=0,w1=0;
+int fnear_detected=0,ffar_detected=0,fnear_isFalse=0,both_onffar=0,monitoring=0,blimp_reached=0,all_done=0,w1=0,ok=0;
 base_sim_t::base_sim_t()
 {
 	b2Vec2 gravity;
@@ -141,7 +141,7 @@ void base_sim_t::step(settings_t* settings)
   vel.x=5.0f;vel.y=0;
 
   b2Vec2 ballvel;
-  ballvel.x=0.0f;ballvel.y=-5.0f;
+  ballvel.x=0.0f;ballvel.y=-7.0f;
 
   b2Vec2 zero_vel;
   zero_vel.x=0;zero_vel.y=0;
@@ -151,7 +151,7 @@ void base_sim_t::step(settings_t* settings)
   b2Body* cop_upper=bodylist[n-3];//upper copter
   b2Body* cop_lower=bodylist[n-4];//lower copter
   //b2Body* ffar=bodylist[n-5];//fire1-farther by lower coptr
-  //b2Body* fnear=bodylist[n-6];//fire2- nearer one
+  b2Body* fnear=bodylist[n-5];//fire2- nearer one
 
   b2Vec2 gvel = cop_lower->GetLinearVelocity();
   b2Vec2 bmp_vel=blimp1->GetLinearVelocity();
@@ -207,23 +207,46 @@ void base_sim_t::step(settings_t* settings)
     //cout<<"here"<<endl;
     ffar_detected=1;
     cop_lower->SetLinearVelocity(zero_vel);
+
+    b2CircleShape scircle;
+    scircle.m_radius = 0.5f;
+        
+    b2FixtureDef sball;
+    sball.shape = &scircle;
+    sball.density = 1.0f;
+    sball.friction = 0.0f;
+    sball.restitution = 0.7f;
+    b2BodyDef ballbds;
+    ballbds.type = b2_dynamicBody;
+
+    ballbds.position.Set(25.7f, 19.0f);
+    sballc = m_world->CreateBody(&ballbds);
+    
+    sballc->CreateFixture(&sball);
+
+    sballc->SetLinearVelocity(ballvel);
   }
   
   if(ffar_detected==1)
     fnear_isFalse++;//time for false fire detection
 
-  cout<<(cop_upper->GetLinearVelocity()).x<<endl;
+  //cout<<(cop_upper->GetLinearVelocity()).x<<endl;
   if((sballc->GetLinearVelocity()).y>0 )
   {
     //delete fnear;
+    //m_world->DestroyBody(sballc);
     sballc->SetLinearVelocity(zero_vel);
     cop_upper->SetLinearVelocity(vel);
+    m_world->DestroyBody(fnear);
+    m_world->DestroyBody(bodylist[0]);
     
   }
 
-  if(cop_upper->GetWorldCenter().x>25.f && ffar_detected ==1)
+  if(cop_upper->GetWorldCenter().x>25.f && ffar_detected ==1 && ok==0)
   {
     both_onffar=1;
+    m_world->DestroyBody(bodylist[0]);
+    ok=1;//else bodylist[0] pops everything and destroys them
     cop_upper->SetLinearVelocity(zero_vel);
   }  
 
