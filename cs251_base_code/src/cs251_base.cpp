@@ -140,14 +140,18 @@ void base_sim_t::step(settings_t* settings)
   b2Vec2 vel;
   vel.x=5.0f;vel.y=0;
 
+  b2Vec2 ballvel;
+  ballvel.x=0.0f;ballvel.y=-5.0f;
+
   b2Vec2 zero_vel;
   zero_vel.x=0;zero_vel.y=0;
 
+  b2Body* sballc=bodylist[0];
   b2Body* blimp1=bodylist[n-2];//blimp
   b2Body* cop_upper=bodylist[n-3];//upper copter
   b2Body* cop_lower=bodylist[n-4];//lower copter
-  b2Body* ffar=bodylist[n-5];//fire1-farther by lower coptr
-  b2Body* fnear=bodylist[n-6];//fire2- nearer one
+  //b2Body* ffar=bodylist[n-5];//fire1-farther by lower coptr
+  //b2Body* fnear=bodylist[n-6];//fire2- nearer one
 
   b2Vec2 gvel = cop_lower->GetLinearVelocity();
   b2Vec2 bmp_vel=blimp1->GetLinearVelocity();
@@ -173,11 +177,28 @@ void base_sim_t::step(settings_t* settings)
   }
 
 
-  if(cop_upper->GetWorldCenter().x>8.f && fnear_detected==0)
+  if(cop_upper->GetWorldCenter().x>8.5f && fnear_detected==0)
   {
     //cout<<"here"<<endl;
     fnear_detected=1;
     cop_upper->SetLinearVelocity(zero_vel);
+    
+    b2CircleShape scircle;
+    scircle.m_radius = 0.5f;
+        
+    b2FixtureDef sball;
+    sball.shape = &scircle;
+    sball.density = 1.0f;
+    sball.friction = 0.0f;
+    sball.restitution = 0.7f;
+    b2BodyDef ballbds;
+    ballbds.type = b2_dynamicBody;
+
+    ballbds.position.Set(8.8f, 19.0f);
+    sballc = m_world->CreateBody(&ballbds);
+    sballc->CreateFixture(&sball);
+
+    sballc->SetLinearVelocity(ballvel);
   }
 
   //cout<<b2Distance(cop_lower->GetWorldCenter(),f1->GetWorldCenter())<<endl;
@@ -191,11 +212,13 @@ void base_sim_t::step(settings_t* settings)
   if(ffar_detected==1)
     fnear_isFalse++;//time for false fire detection
 
-  //cout<<fnear_isFalse<<endl;
-  if(fnear_isFalse == 400)
+  cout<<(cop_upper->GetLinearVelocity()).x<<endl;
+  if((sballc->GetLinearVelocity()).y>0 )
   {
     //delete fnear;
+    sballc->SetLinearVelocity(zero_vel);
     cop_upper->SetLinearVelocity(vel);
+    
   }
 
   if(cop_upper->GetWorldCenter().x>25.f && ffar_detected ==1)
