@@ -181,13 +181,123 @@ namespace cs251
       b2BodyDef firesquare;
       firesquare.type = b2_staticBody;
 
-      firesquare.position.Set(30.0f, 0.0f);
+      firesquare.position.Set(8.8f, 0.0f);
       fire1 = m_world->CreateBody(&firesquare);
       fire1->CreateFixture(&fff);
 
-      firesquare.position.Set(8.0f, 0.0f);
-      fire2 = m_world->CreateBody(&firesquare);
-      fire2->CreateFixture(&fff);
+      // firesquare.position.Set(8.0f, 0.0f);
+      // fire2 = m_world->CreateBody(&firesquare);
+      // fire2->CreateFixture(&fff);
+      {
+      	{
+        b2PolygonShape shape;
+        shape.SetAsBox(0.01f, 1.0f);
+
+        b2FixtureDef fd;
+        fd.shape = &shape;
+        fd.density = 2000.0f;
+        fd.friction = 1.0f;
+
+        b2PolygonShape shape2;
+        shape2.SetAsBox(0.01f, 0.8f);
+
+        b2FixtureDef fd2;
+        fd2.shape = &shape2;
+        fd2.density = 2000.0f;
+        fd2.friction = 0.1f;
+
+        b2PolygonShape shape3;
+        shape3.SetAsBox(0.001f, 1.7f);
+
+        b2FixtureDef fd3;
+        fd3.shape = &shape3;
+        fd3.density = 2000.0f;
+        fd3.friction = 0.1f;
+
+        b2PolygonShape shape4;
+        shape4.SetAsBox(0.001f, 2.2f);
+
+        b2FixtureDef fd4;
+        fd4.shape = &shape4;
+        fd4.density = 2000.0f;
+        fd4.friction = 0.1f;
+
+        b2PolygonShape shape5;
+        shape5.SetAsBox(0.001f, 2.8f);
+
+        b2FixtureDef fd5;
+        fd5.shape = &shape5;
+        fd5.density = 2000.0f;
+        fd5.friction = 0.1f;
+
+
+        for (int i = 0; i < 20; ++i)
+        {
+
+            b2BodyDef bd;
+            bd.type = b2_dynamicBody;
+            bd.position.Set(25.3f + 0.25f * i, 2.0f );
+            b2Body* body = m_world->CreateBody(&bd);
+            body->CreateFixture(&fd);
+            bd.position.Set(8.3f + 0.25f * i, 2.0f );
+            // body = m_world->CreateBody(&bd);
+            // body->CreateFixture(&fd);
+
+        }
+        for (int i = 0; i < 5; ++i)
+        {
+
+            b2BodyDef bd;
+            bd.type = b2_dynamicBody;
+            bd.position.Set(25.3f + 1.f * i, 2.0f );
+            b2Body* body = m_world->CreateBody(&bd);
+            body->CreateFixture(&fd2);
+            bd.position.Set(8.3f + 1.f * i, 2.0f );
+            // body = m_world->CreateBody(&bd);
+            // body->CreateFixture(&fd2);
+
+        }
+        for (int i = 0; i < 10; ++i)
+        {
+
+            b2BodyDef bd;
+            bd.type = b2_dynamicBody;
+            bd.position.Set(25.4f + 0.5f * i, 2.0f );
+            b2Body* body = m_world->CreateBody(&bd);
+            body->CreateFixture(&fd3);
+            bd.position.Set(8.4f + 0.5f * i, 2.0f );
+            // body = m_world->CreateBody(&bd);
+            // body->CreateFixture(&fd3);
+
+        }
+        for (int i = 0; i < 5; ++i)
+        {
+
+            b2BodyDef bd;
+            bd.type = b2_dynamicBody;
+            bd.position.Set(26.f + 1.f * i, 2.0f );
+            b2Body* body = m_world->CreateBody(&bd);
+            body->CreateFixture(&fd4);
+            bd.position.Set(9.f + 1.f * i, 2.0f );
+            // body = m_world->CreateBody(&bd);
+            // body->CreateFixture(&fd4);
+
+        }
+        for (int i = 0; i < 3; ++i)
+        {
+
+            b2BodyDef bd;
+            bd.type = b2_dynamicBody;
+            bd.position.Set(26.f + 1.5f * i, 2.0f );
+            b2Body* body = m_world->CreateBody(&bd);
+            body->CreateFixture(&fd5);
+            bd.position.Set(9.f + 1.5f * i, 2.0f );
+            // body = m_world->CreateBody(&bd);
+            // body->CreateFixture(&fd5);
+
+        }
+    }
+      }
     }
     
 

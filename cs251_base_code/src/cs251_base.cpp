@@ -173,7 +173,7 @@ void base_sim_t::step(settings_t* settings)
   }
 
 
-  if(b2Distance(cop_upper->GetWorldCenter(),fnear->GetWorldCenter())<24.2f && fnear_detected==0)
+  if(cop_upper->GetWorldCenter().x>8.f && fnear_detected==0)
   {
     //cout<<"here"<<endl;
     fnear_detected=1;
@@ -181,7 +181,7 @@ void base_sim_t::step(settings_t* settings)
   }
 
   //cout<<b2Distance(cop_lower->GetWorldCenter(),f1->GetWorldCenter())<<endl;
-  if(b2Distance(cop_lower->GetWorldCenter(),ffar->GetWorldCenter())<21.2f && ffar_detected ==0)
+  if(cop_lower->GetWorldCenter().x>25 && ffar_detected ==0)
   {
     //cout<<"here"<<endl;
     ffar_detected=1;
@@ -198,7 +198,7 @@ void base_sim_t::step(settings_t* settings)
     cop_upper->SetLinearVelocity(vel);
   }
 
-  if(b2Distance(cop_upper->GetWorldCenter(),ffar->GetWorldCenter())<24.2f && ffar_detected ==1)
+  if(cop_upper->GetWorldCenter().x>25.f && ffar_detected ==1)
   {
     both_onffar=1;
     cop_upper->SetLinearVelocity(zero_vel);
