@@ -23,7 +23,7 @@
 using namespace std;
 using namespace cs251;
 
-int fnear_detected=0,ffar_detected=0,fnear_isFalse=0,both_onffar=0,monitoring=0;
+int fnear_detected=0,ffar_detected=0,fnear_isFalse=0,both_onffar=0,monitoring=0,blimp_reached=0,all_done=0,w1=0;
 base_sim_t::base_sim_t()
 {
 	b2Vec2 gravity;
@@ -150,8 +150,23 @@ void base_sim_t::step(settings_t* settings)
   b2Body* fnear=bodylist[n-6];//fire2- nearer one
 
   b2Vec2 gvel = cop_lower->GetLinearVelocity();
+  b2Vec2 bmp_vel=blimp1->GetLinearVelocity();
   //cout<<gvel.x<<endl;
-  if(gvel.x==0 && fnear_detected==0 && ffar_detected==0)
+  if(bmp_vel.x==0 && blimp_reached==0)
+  {
+    blimp1->SetLinearVelocity(vel);
+  }
+
+  if(blimp1->GetWorldCenter().x>17)
+  {
+    blimp_reached=1;
+    blimp1->SetLinearVelocity(zero_vel);
+  }
+
+  if(blimp_reached==1)
+    w1++;
+
+  if(gvel.x==0 && fnear_detected==0 && ffar_detected==0 && blimp_reached==1 && w1==300)
   {
     cop_upper->SetLinearVelocity(vel);
     cop_lower->SetLinearVelocity(vel);
@@ -179,6 +194,7 @@ void base_sim_t::step(settings_t* settings)
   //cout<<fnear_isFalse<<endl;
   if(fnear_isFalse == 400)
   {
+    //delete fnear;
     cop_upper->SetLinearVelocity(vel);
   }
 
@@ -195,13 +211,20 @@ void base_sim_t::step(settings_t* settings)
   {
     cop_upper->SetLinearVelocity(-vel);
     cop_lower->SetLinearVelocity(-vel);
+    blimp1->SetLinearVelocity(-vel);
+    all_done=1;
   }
 
-  if(b2Distance(cop_upper->GetWorldCenter(),blimp1->GetWorldCenter())<7.002f && monitoring>450)
+  if(all_done==1 && cop_lower->GetWorldCenter().x<-30)
   {
     //cout<<"hey"<<endl;
     cop_upper->SetLinearVelocity(zero_vel);
     cop_lower->SetLinearVelocity(zero_vel);
+  }
+
+  if(all_done==1 && blimp1->GetWorldCenter().x<-30)
+  {
+    blimp1->SetLinearVelocity(zero_vel);
   }
 
 

@@ -126,7 +126,7 @@ namespace cs251
       bmp1.friction = 0.0f;
       bmp1.restitution = 0.0f;
       b2BodyDef ballbd1;
-      ballbd1.type = b2_staticBody;
+      ballbd1.type = b2_dynamicBody;
       ballbd1.position.Set(-30.0f, 30.0f);
       tblp = m_world->CreateBody(&ballbd1);
       tblp->CreateFixture(&bmp1);
