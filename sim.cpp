@@ -97,12 +97,12 @@ int main()
 	}
 
 	usleep(5000000);
-	
+
 	cout<<endl;
 	cout<<"Now all UAVs are returning to their base station"<<endl;cout<<endl;
 	usleep(5000000);
 	cout<<"All UAVs have landed at base station"<<endl;cout<<endl;
 
 	cout<<"----SIMULATION OVER----"<<endl;cout<<endl;
-	
+	/////////////////////////
 }
