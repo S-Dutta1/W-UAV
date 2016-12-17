@@ -141,7 +141,7 @@ void base_sim_t::step(settings_t* settings)
   vel.x=5.0f;vel.y=0;
 
   b2Vec2 ballvel;
-  ballvel.x=0.0f;ballvel.y=-7.0f;
+  ballvel.x=0.0f;ballvel.y=-9.0f;
 
   b2Vec2 zero_vel;
   zero_vel.x=0;zero_vel.y=0;
@@ -177,11 +177,11 @@ void base_sim_t::step(settings_t* settings)
   }
 
 
-  if(cop_upper->GetWorldCenter().x>8.5f && fnear_detected==0)
+  if(cop_lower->GetWorldCenter().x>8.5f && fnear_detected==0)
   {
     //cout<<"here"<<endl;
     fnear_detected=1;
-    cop_upper->SetLinearVelocity(zero_vel);
+    cop_lower->SetLinearVelocity(zero_vel);
     
     b2CircleShape scircle;
     scircle.m_radius = 0.5f;
@@ -202,11 +202,11 @@ void base_sim_t::step(settings_t* settings)
   }
 
   //cout<<b2Distance(cop_lower->GetWorldCenter(),f1->GetWorldCenter())<<endl;
-  if(cop_lower->GetWorldCenter().x>25 && ffar_detected ==0)
+  if(cop_upper->GetWorldCenter().x>25 && ffar_detected ==0)
   {
     //cout<<"here"<<endl;
     ffar_detected=1;
-    cop_lower->SetLinearVelocity(zero_vel);
+    cop_upper->SetLinearVelocity(zero_vel);
 
     b2CircleShape scircle;
     scircle.m_radius = 0.5f;
@@ -219,7 +219,7 @@ void base_sim_t::step(settings_t* settings)
     b2BodyDef ballbds;
     ballbds.type = b2_dynamicBody;
 
-    ballbds.position.Set(25.7f, 19.0f);
+    ballbds.position.Set(25.7f, 22.0f);
     sballc = m_world->CreateBody(&ballbds);
     
     sballc->CreateFixture(&sball);
@@ -236,18 +236,18 @@ void base_sim_t::step(settings_t* settings)
     //delete fnear;
     //m_world->DestroyBody(sballc);
     sballc->SetLinearVelocity(zero_vel);
-    cop_upper->SetLinearVelocity(vel);
-    m_world->DestroyBody(fnear);
+    cop_lower->SetLinearVelocity(vel);
+    //m_world->DestroyBody(fnear);
     m_world->DestroyBody(bodylist[0]);
     
   }
 
-  if(cop_upper->GetWorldCenter().x>25.f && ffar_detected ==1 && ok==0)
+  if(cop_lower->GetWorldCenter().x>25.f && ffar_detected ==1 && ok==0)
   {
     both_onffar=1;
     m_world->DestroyBody(bodylist[0]);
     ok=1;//else bodylist[0] pops everything and destroys them
-    cop_upper->SetLinearVelocity(zero_vel);
+    cop_lower->SetLinearVelocity(zero_vel);
   }  
 
   if(both_onffar==1)
