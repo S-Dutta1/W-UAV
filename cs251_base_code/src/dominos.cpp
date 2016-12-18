@@ -235,7 +235,7 @@ namespace cs251
         {
 
             b2BodyDef bd;
-            bd.type = b2_dynamicBody;
+            bd.type = b2_staticBody;
             bd.position.Set(25.3f + 0.25f * i, 2.0f );
             b2Body* body = m_world->CreateBody(&bd);
             body->CreateFixture(&fd);
@@ -248,7 +248,7 @@ namespace cs251
         {
 
             b2BodyDef bd;
-            bd.type = b2_dynamicBody;
+            bd.type = b2_staticBody;
             bd.position.Set(25.3f + 1.f * i, 2.0f );
             b2Body* body = m_world->CreateBody(&bd);
             body->CreateFixture(&fd2);
@@ -261,7 +261,7 @@ namespace cs251
         {
 
             b2BodyDef bd;
-            bd.type = b2_dynamicBody;
+            bd.type = b2_staticBody;
             bd.position.Set(25.4f + 0.5f * i, 2.0f );
             b2Body* body = m_world->CreateBody(&bd);
             body->CreateFixture(&fd3);
@@ -274,7 +274,7 @@ namespace cs251
         {
 
             b2BodyDef bd;
-            bd.type = b2_dynamicBody;
+            bd.type = b2_staticBody;
             bd.position.Set(26.f + 1.f * i, 2.0f );
             b2Body* body = m_world->CreateBody(&bd);
             body->CreateFixture(&fd4);
@@ -287,7 +287,7 @@ namespace cs251
         {
 
             b2BodyDef bd;
-            bd.type = b2_dynamicBody;
+            bd.type = b2_staticBody;
             bd.position.Set(26.f + 1.5f * i, 2.0f );
             b2Body* body = m_world->CreateBody(&bd);
             body->CreateFixture(&fd5);
