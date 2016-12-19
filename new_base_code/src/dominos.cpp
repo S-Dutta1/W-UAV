@@ -59,47 +59,7 @@ namespace cs251
       b1->CreateFixture(&shape, 0.0f);
     }
 
-     // ////////  random fires   //////////////
-    
-     //  b2Body* ;b2Body* blimp1;
-      
-     //  b2CircleShape circle;
-     //  circle.m_radius = 5.0;
-  
-     //  b2FixtureDef bmp;
-     //  bmp.shape = &circle;
-     //  bmp.density = 50.0f;
-     //  bmp.friction = 0.0f;
-     //  bmp.restitution = 0.0f;
-     //  b2BodyDef ballbd;
-     //  ballbd.type = b2_dynamicBody;
-
-
-     //  b2FixtureDef bmp1;
-     //  bmp1.shape = &circle;
-     //  bmp1.density = 50.0f;
-     //  bmp1.friction = 0.0f;
-     //  bmp1.restitution = 0.0f;
-     //  b2BodyDef ballbd1;
-     //  ballbd1.type = b2_dynamicBody;
-
-     //  bmp.filter.categoryBits = 0x0001;
-     //  bmp1.filter.categoryBits = 0x0002;
-     //  bmp.filter.maskBits = 0x0000;
-     //  bmp1.filter.maskBits = 0x0000;
-
-     //  ballbd.position.Set(0.0f, 10.0f);
-     //  blimp = m_world->CreateBody(&ballbd);
-     //  blimp->CreateFixture(&bmp);
-
-     //  ballbd1.position.Set(0.0f, 30.0f);
-     //  blimp1 = m_world->CreateBody(&ballbd1);
-     //  blimp1->CreateFixture(&bmp1);
-       
-      
-
-  
-      
+        
     }     
     
   

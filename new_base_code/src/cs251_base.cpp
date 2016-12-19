@@ -25,7 +25,12 @@
 using namespace std;
 using namespace cs251;
 
-int fires_created=0;int no_of_fires=3;int cop_created=0;int no_of_cops=2;
+int fires_created=0;const int no_of_fires=3;int cop_created=0;const int no_of_cops=2;
+double dist[no_of_cops][no_of_fires];
+double ages[no_of_fires]; 
+vector<b2Body*> copter_list;vector<b2Body*> fire_list;
+int initialised=0;
+
 base_sim_t::base_sim_t()
 {
 	b2Vec2 gravity;
@@ -131,14 +136,13 @@ void base_sim_t::step(settings_t* settings)
   
   b2Body* bdptr = m_world->GetBodyList();
   vector<b2Body*> bodylist;
-
   while(bdptr->GetNext()){
     bodylist.push_back(bdptr);
     bdptr=bdptr->GetNext();
   }
   int n=bodylist.size();
-  
-
+cout<<n<<endl;
+//usleep(3000000);
   //////////////    Fires   created    ///////////////    
       if(fires_created==0){
 
@@ -156,6 +160,7 @@ void base_sim_t::step(settings_t* settings)
       bmp.filter.maskBits = 0x0000;
       for(int i=0;i<no_of_fires;i++)
       {
+        ages[i]=0;
         ballbd.position.Set(-35+rand()%70, rand()%40);
         b2Body* fire = m_world->CreateBody(&ballbd);
         fire->CreateFixture(&bmp);
@@ -165,7 +170,7 @@ void base_sim_t::step(settings_t* settings)
 ////////////////////////////////////////////////////////////
 
 
-    ///////////    Copters    ///////////////
+ /////////////////    Copters    /////////////////////////
 
     if(cop_created==0){
 
@@ -194,8 +199,47 @@ void base_sim_t::step(settings_t* settings)
         b2Body* fire = m_world->CreateBody(&ballbd);
         fire->CreateFixture(&bmp);
       }
+      
     }
     cop_created++;
+
+//////////////////////////////////////////////
+
+
+
+    
+
+////////////   initialisation   ///////////////
+if(initialised == 1){
+
+  for(int i=0;i<no_of_cops;i++)
+    {
+      b2Body* g=bodylist[i];
+      cout<<g->GetWorldCenter().x<<endl;
+      copter_list.push_back(g);
+
+    }
+
+  for(int i=0;i<no_of_fires;i++)
+    {
+      b2Body* g=bodylist[no_of_cops+ i];
+      cout<<g->GetWorldCenter().x<<endl;
+      fire_list.push_back(g);
+
+    }
+
+  for(int i=0;i<no_of_cops;i++)
+    for(int j=0;j<no_of_fires;j++)
+        dist[i][j]=b2Distance(copter_list[i]->GetWorldCenter(),fire_list[j]->GetWorldCenter());
+    }
+    initialised++;
+////////////////////////////////////////////////
+
+
+
+
+
+
 
 
   /****************************************************/
