@@ -31,11 +31,12 @@ int fires_created=0;const int no_of_fires=6;int cop_created=0;const int no_of_co
 double dist[no_of_cops][no_of_fires];double assgns[no_of_cops][no_of_fires];
 double ages[no_of_fires]; 
 double speed = 10;
-vector<b2Body*> copter_list;vector<b2Body*> fire_list;
+vector<b2Body*> copter_list;vector<b2Body*> fire_list;vector<b2Body*> stations_list;
 int initialised=0;
 
 int newok=0,second_cond=0,kk=no_of_cops;
 float closeness_limit = 0.5f;
+double finish = 0;
 
 base_sim_t::base_sim_t()
 {
@@ -167,7 +168,7 @@ void base_sim_t::step(settings_t* settings)
       for(int i=0;i<no_of_fires;i++)
       {
         ages[i]=0;
-        ballbd.position.Set(-35+rand()%70, rand()%40);
+        ballbd.position.Set(-35+rand()%70, rand()%40+3);
         b2Body* fire = m_world->CreateBody(&ballbd);
         fire->CreateFixture(&bmp);
       }
@@ -177,7 +178,7 @@ void base_sim_t::step(settings_t* settings)
     b2Vec2 zero_vel;
     zero_vel.x=0;zero_vel.y=0;
 
- /////////////////    Copters    /////////////////////////
+ /////////////////    Copters    and   Stations/////////////////////////
 
     if(cop_created==0){
 
@@ -200,20 +201,39 @@ void base_sim_t::step(settings_t* settings)
       bmp.filter.categoryBits = 0x0010;
       bmp.filter.maskBits = 0x0000;// change mask to avoid self collision 
 
+      b2CircleShape circle;
+      circle.m_radius = 0.5f;//station size
+
+      b2FixtureDef tmp;
+      tmp.shape = &circle;
+      tmp.density = 50.0f;
+      tmp.friction = 0.0f;
+      tmp.restitution = 0.0f;
+      tmp.filter.categoryBits = 0x0010;
+      tmp.filter.maskBits = 0x0000;// change mask to avoid self collision 
+
+
       for(int i=0;i<no_of_cops;i++)
       {
-        ballbd.position.Set(-35+rand()%70,0);
+        double x=-35+rand()%70;
+        ballbd.position.Set(x,0);
         b2Body* fire = m_world->CreateBody(&ballbd);
         fire->CreateFixture(&bmp);
       }
-      
+      for(int i=0;i<no_of_cops;i++)//stations
+      {
+        double x=-35+rand()%70;
+        ballbd.position.Set(x,0);
+        b2Body* fre = m_world->CreateBody(&ballbd);
+        fre->CreateFixture(&tmp);
+      }
     }
     cop_created=1;
 
 //////////////////////////////////////////////
 
-
-
+//fires->cops->stations
+  
     
 
 ////////////   initialisation   ///////////////
@@ -223,13 +243,21 @@ if(initialised == 1){
     {
       b2Body* g=bodylist[i];
       //cout<<g->GetWorldCenter().x<<endl;
+      stations_list.push_back(g);
+
+    }
+
+  for(int i=0;i<no_of_cops;i++)
+    {
+      b2Body* g=bodylist[i+no_of_cops];
+      //cout<<g->GetWorldCenter().x<<endl;
       copter_list.push_back(g);
 
     }
 
   for(int i=0;i<no_of_fires;i++)
     {
-      b2Body* g=bodylist[no_of_cops+ i];
+      b2Body* g=bodylist[2*no_of_cops+ i];
       //cout<<g->GetWorldCenter().x<<endl;
       fire_list.push_back(g);
 
@@ -340,9 +368,31 @@ if(initialised > 1)
 
 
   }
+}
+
+/****  Comment below part to continue simulationforever   ****/
+finish++;
+cout<<finish<<endl;
+if(finish > 2000) //~ 30 secs
+{
+  for(int i=0;i<no_of_cops;i++)
+  {
+    b2Vec2 rvector=stations_list[i]->GetWorldCenter()-copter_list[i]->GetWorldCenter();
+    double xx=rvector.x;double yy=rvector.y;
+    rvector.x=speed*xx/sqrt(xx*xx+yy*yy);
+    rvector.y=speed*yy/sqrt(xx*xx+yy*yy);
+    copter_list[i]->SetLinearVelocity(rvector);
+  }
+  initialised = -1;
+}
+/**************************************************************/
+
+
+
+
 
 /************************END MY ALGO**************************************/
-}
+
 
 
 
