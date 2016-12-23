@@ -27,12 +27,15 @@
 using namespace std;
 using namespace cs251;
 
-int fires_created=0;const int no_of_fires=4;int cop_created=0;const int no_of_cops=3;
+int fires_created=0;const int no_of_fires=6;int cop_created=0;const int no_of_cops=4;
 double dist[no_of_cops][no_of_fires];double assgns[no_of_cops][no_of_fires];
 double ages[no_of_fires]; 
-double speed = 5;
+double speed = 10;
 vector<b2Body*> copter_list;vector<b2Body*> fire_list;
 int initialised=0;
+
+int newok=0,second_cond=0,kk=no_of_cops;
+float closeness_limit = 0.5f;
 
 base_sim_t::base_sim_t()
 {
@@ -143,8 +146,8 @@ void base_sim_t::step(settings_t* settings)
     bodylist.push_back(bdptr);
     bdptr=bdptr->GetNext();
   }
-  int n=bodylist.size();
-cout<<n<<endl;
+  //int n=bodylist.size();
+//cout<<n<<endl;
 //usleep(3000000);
   //////////////    Fires   created    ///////////////    
       if(fires_created==0){
@@ -171,7 +174,8 @@ cout<<n<<endl;
     }
     fires_created=1;
 ////////////////////////////////////////////////////////////
-
+    b2Vec2 zero_vel;
+    zero_vel.x=0;zero_vel.y=0;
 
  /////////////////    Copters    /////////////////////////
 
@@ -193,12 +197,12 @@ cout<<n<<endl;
       bmp.restitution = 0.0f;
       b2BodyDef ballbd;
       ballbd.type = b2_dynamicBody;
-      bmp.filter.categoryBits = 0x0002;
-      bmp.filter.maskBits = 0x0002;// change mask to avoid self collision 
+      bmp.filter.categoryBits = 0x0010;
+      bmp.filter.maskBits = 0x0000;// change mask to avoid self collision 
 
       for(int i=0;i<no_of_cops;i++)
       {
-        ballbd.position.Set(2*i+1,0);
+        ballbd.position.Set(-35+rand()%70,0);
         b2Body* fire = m_world->CreateBody(&ballbd);
         fire->CreateFixture(&bmp);
       }
@@ -234,9 +238,9 @@ if(initialised == 1){
   for(int i=0;i<no_of_cops;i++)
     for(int j=0;j<no_of_fires;j++)
         dist[i][j]=b2Distance(copter_list[i]->GetWorldCenter(),fire_list[j]->GetWorldCenter());
-    }
+}
     initialised++;
-////////////////////////////////////////////////
+///////////////////  initialised = 1 ending ..../////////////////////////////
 
 for(int i=0;i<no_of_fires;i++)
   ages[i]++;
@@ -249,11 +253,14 @@ for (int i = 0; i < no_of_cops; ++i)
   }
 }
 
+///////////////////////////////ASSIGNMENTS ABOVE /////////////////////
 if(initialised > 1)
 {
+  
+  /*****  NORMAL NO ALGO MODE ********
   for(int i=0;i<no_of_cops;i++)
   {
-    int max_i=-1;int m_index=0;
+    double max_i=-1;int m_index=0;
     for(int j=0;j<no_of_fires;j++)
     {
       if(assgns[i][j]>max_i)
@@ -264,10 +271,12 @@ if(initialised > 1)
     b2Vec2 rvector=fire_list[m_index]->GetWorldCenter()-copter_list[i]->GetWorldCenter();
     double xx=rvector.x;double yy=rvector.y;
     //cout<<xx<<" "<<yy<<endl;
-    rvector.x=5*xx/sqrt(xx*xx+yy*yy);
-    rvector.y=5*yy/sqrt(xx*xx+yy*yy);
+    rvector.x=speed*xx/sqrt(xx*xx+yy*yy);
+    rvector.y=speed*yy/sqrt(xx*xx+yy*yy);
     copter_list[i]->SetLinearVelocity(rvector);
   }
+
+
   for(int i=0;i<no_of_fires;i++)
   {
     for (int j = 0; j < no_of_cops; ++j)
@@ -276,6 +285,63 @@ if(initialised > 1)
         ages[i]=0;
     }
   }
+  **********************************************/
+
+
+  /***************   MY ALGO  *******************/
+  if(no_of_cops >= no_of_fires && newok==0)
+  {
+    for(int i=0;i<no_of_fires;i++)
+    {
+      b2Vec2 rvector=fire_list[i]->GetWorldCenter()-copter_list[i]->GetWorldCenter();
+      double xx=rvector.x;double yy=rvector.y;
+      rvector.x=speed*xx/sqrt(xx*xx+yy*yy);
+      rvector.y=speed*yy/sqrt(xx*xx+yy*yy);
+      copter_list[i]->SetLinearVelocity(rvector);
+    }
+    newok=0;
+  }
+
+  else
+  {
+
+    if(second_cond == 0)
+    {
+      for(int i=0;i<no_of_cops;i++)
+      {
+        b2Vec2 rvector=fire_list[i]->GetWorldCenter()-copter_list[i]->GetWorldCenter();
+        double xx=rvector.x;double yy=rvector.y;
+        rvector.x=speed*xx/sqrt(xx*xx+yy*yy);
+        rvector.y=speed*yy/sqrt(xx*xx+yy*yy);
+        copter_list[i]->SetLinearVelocity(rvector);
+      }
+    }
+    second_cond = 1;
+    if(second_cond == 1)
+    {
+      for(int i=0;i<no_of_cops;i++)
+      {
+        //cout<<"A"<<endl;
+        for(int j=0;j<no_of_fires;j++)
+        {
+          if(b2Distance(fire_list[j]->GetWorldCenter(),copter_list[i]->GetWorldCenter())< closeness_limit)
+          {
+            //cout<<"B"<<endl;
+            b2Vec2 rvector=fire_list[kk%no_of_fires]->GetWorldCenter()-copter_list[i]->GetWorldCenter();
+            double xx=rvector.x;double yy=rvector.y;
+            rvector.x=speed*xx/sqrt(xx*xx+yy*yy);
+            rvector.y=speed*yy/sqrt(xx*xx+yy*yy);
+            copter_list[i]->SetLinearVelocity(rvector);
+            kk++;
+          }
+        }
+      }
+    }
+
+
+  }
+
+/************************END MY ALGO**************************************/
 }
 
 
@@ -407,3 +473,41 @@ if(initialised > 1)
 	}
     }
 }
+
+
+  // PATH CROSS ALGO
+  // for(int t=0;t<no_of_cops;t++)
+  // {
+  //   for(int tt=0;tt<no_of_cops;tt++)
+  //   {
+  //     if(t!=tt && b2Distance(copter_list[t]->GetWorldCenter(),copter_list[tt]->GetWorldCenter()) < 2.f)
+  //     {
+  //       int mm=0,ind=0;
+  //       for(int h=0;h<no_of_fires;h++)
+  //       {
+  //         if(b2Distance(copter_list[tt]->GetWorldCenter(),fire_list[h]->GetWorldCenter())>mm)
+  //         {
+  //           ind=h;mm=b2Distance(copter_list[tt]->GetWorldCenter(),fire_list[h]->GetWorldCenter());
+  //         }
+  //       }
+
+
+  //       b2Vec2 rvector=fire_list[ind]->GetWorldCenter()-copter_list[tt]->GetWorldCenter();
+  //       double xx=rvector.x;double yy=rvector.y;
+  //       rvector.x=speed*xx/sqrt(xx*xx+yy*yy);
+  //       rvector.y=speed*yy/sqrt(xx*xx+yy*yy);
+  //       copter_list[tt]->SetLinearVelocity(rvector);
+
+  //       int y=0;
+  //       while(y<700)
+  //         y++;
+
+
+  //       b2Vec2 rvector1=fire_list[rand()%no_of_fires]->GetWorldCenter()-copter_list[t]->GetWorldCenter();
+  //       xx=rvector1.x;yy=rvector1.y;
+  //       rvector1.x=speed*xx/sqrt(xx*xx+yy*yy);
+  //       rvector1.y=speed*yy/sqrt(xx*xx+yy*yy);
+  //       copter_list[t]->SetLinearVelocity(rvector1);
+  //     }
+  //   }
+  // }
