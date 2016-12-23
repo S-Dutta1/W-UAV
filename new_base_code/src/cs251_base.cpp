@@ -21,14 +21,16 @@
 #include <vector>
 #include <iostream>
 #include <unistd.h>
+#include <time.h>
 #include <stdlib.h>
 #include <cmath>
 using namespace std;
 using namespace cs251;
 
-int fires_created=0;const int no_of_fires=3;int cop_created=0;const int no_of_cops=3;
-double dist[no_of_cops][no_of_fires];
+int fires_created=0;const int no_of_fires=4;int cop_created=0;const int no_of_cops=3;
+double dist[no_of_cops][no_of_fires];double assgns[no_of_cops][no_of_fires];
 double ages[no_of_fires]; 
+double speed = 5;
 vector<b2Body*> copter_list;vector<b2Body*> fire_list;
 int initialised=0;
 
@@ -192,7 +194,7 @@ cout<<n<<endl;
       b2BodyDef ballbd;
       ballbd.type = b2_dynamicBody;
       bmp.filter.categoryBits = 0x0002;
-      bmp.filter.maskBits = 0x0002;
+      bmp.filter.maskBits = 0x0002;// change mask to avoid self collision 
 
       for(int i=0;i<no_of_cops;i++)
       {
@@ -238,24 +240,48 @@ if(initialised == 1){
 
 for(int i=0;i<no_of_fires;i++)
   ages[i]++;
+
+for (int i = 0; i < no_of_cops; ++i)
+{
+  for (int j= 0; j < no_of_fires; ++j)
+  {
+    assgns[i][j]=ages[j]+dist[i][j]/2;
+  }
+}
+
 if(initialised > 1)
 {
-for(int i=0;i<no_of_cops;i++)
-{
-  b2Vec2 rvector=fire_list[i]->GetWorldCenter()-copter_list[i]->GetWorldCenter();
-  //cout<<"SDSF"<<endl;
-  double xx=rvector.x;double yy=rvector.y;
-  //cout<<xx<<" "<<yy<<endl;
-  rvector.x=3*xx/sqrt(xx*xx+yy*yy);
-  rvector.y=3*yy/sqrt(xx*xx+yy*yy);
-  copter_list[i]->SetLinearVelocity(rvector);
+  for(int i=0;i<no_of_cops;i++)
+  {
+    int max_i=-1;int m_index=0;
+    for(int j=0;j<no_of_fires;j++)
+    {
+      if(assgns[i][j]>max_i)
+        {
+          m_index=j;max_i=assgns[i][j];
+        }
+    }
+    b2Vec2 rvector=fire_list[m_index]->GetWorldCenter()-copter_list[i]->GetWorldCenter();
+    double xx=rvector.x;double yy=rvector.y;
+    //cout<<xx<<" "<<yy<<endl;
+    rvector.x=5*xx/sqrt(xx*xx+yy*yy);
+    rvector.y=5*yy/sqrt(xx*xx+yy*yy);
+    copter_list[i]->SetLinearVelocity(rvector);
+  }
+  for(int i=0;i<no_of_fires;i++)
+  {
+    for (int j = 0; j < no_of_cops; ++j)
+    {
+      if(b2Distance(fire_list[i]->GetWorldCenter(),copter_list[j]->GetWorldCenter())< 2)
+        ages[i]=0;
+    }
+  }
 }
-}
 
 
 
 
-  /****************************************************/
+  /***********************   END  CODING   *****************************/
   m_world->DrawDebugData();
   
   if (time_step > 0.0f)
