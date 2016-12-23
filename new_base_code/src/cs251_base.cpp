@@ -22,10 +22,11 @@
 #include <iostream>
 #include <unistd.h>
 #include <stdlib.h>
+#include <cmath>
 using namespace std;
 using namespace cs251;
 
-int fires_created=0;const int no_of_fires=3;int cop_created=0;const int no_of_cops=2;
+int fires_created=0;const int no_of_fires=3;int cop_created=0;const int no_of_cops=3;
 double dist[no_of_cops][no_of_fires];
 double ages[no_of_fires]; 
 vector<b2Body*> copter_list;vector<b2Body*> fire_list;
@@ -37,7 +38,7 @@ base_sim_t::base_sim_t()
 	gravity.Set(0.0f, 0.0f);
 	m_world = new b2World(gravity);
 
-	m_text_line = 30;
+	m_text_line = 30;  
 
 	m_point_count = 0;
 
@@ -166,7 +167,7 @@ cout<<n<<endl;
         fire->CreateFixture(&bmp);
       }
     }
-    fires_created++;
+    fires_created=1;
 ////////////////////////////////////////////////////////////
 
 
@@ -201,7 +202,7 @@ cout<<n<<endl;
       }
       
     }
-    cop_created++;
+    cop_created=1;
 
 //////////////////////////////////////////////
 
@@ -215,7 +216,7 @@ if(initialised == 1){
   for(int i=0;i<no_of_cops;i++)
     {
       b2Body* g=bodylist[i];
-      cout<<g->GetWorldCenter().x<<endl;
+      //cout<<g->GetWorldCenter().x<<endl;
       copter_list.push_back(g);
 
     }
@@ -223,7 +224,7 @@ if(initialised == 1){
   for(int i=0;i<no_of_fires;i++)
     {
       b2Body* g=bodylist[no_of_cops+ i];
-      cout<<g->GetWorldCenter().x<<endl;
+      //cout<<g->GetWorldCenter().x<<endl;
       fire_list.push_back(g);
 
     }
@@ -235,9 +236,21 @@ if(initialised == 1){
     initialised++;
 ////////////////////////////////////////////////
 
-
-
-
+for(int i=0;i<no_of_fires;i++)
+  ages[i]++;
+if(initialised > 1)
+{
+for(int i=0;i<no_of_cops;i++)
+{
+  b2Vec2 rvector=fire_list[i]->GetWorldCenter()-copter_list[i]->GetWorldCenter();
+  //cout<<"SDSF"<<endl;
+  double xx=rvector.x;double yy=rvector.y;
+  //cout<<xx<<" "<<yy<<endl;
+  rvector.x=3*xx/sqrt(xx*xx+yy*yy);
+  rvector.y=3*yy/sqrt(xx*xx+yy*yy);
+  copter_list[i]->SetLinearVelocity(rvector);
+}
+}
 
 
 
