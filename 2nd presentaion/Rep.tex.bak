@@ -1,0 +1,38 @@
+\documentclass{beamer}
+\usepackage{color}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{amssymb,graphicx}
+\usepackage{pifont}
+
+\begin{document}
+
+\title{Multi-UAV Simulation Presentation}   
+\author{Srijit Dutta\\} 
+\date{\today} 
+
+
+\frame{\titlepage} 
+\section{Report} 
+
+
+
+\subsection{Box2D}
+\frame{\frametitle{Improvement from previous simulation} 
+\begin{itemize}
+\item A 2-D model has been developed, this is based on the assumption that the height is constant for all UAVs
+\item All UAVs keep monitoring all fires upto a time the 'false alarm' is detected
+\item This false alarm is selected randomly and the UAVs adjust their course accordingly
+\item Also self collisions among UAVs have been neglected
+\end{itemize}
+}
+%%%%%%%%%%%%%%%%%%%
+\frame{\frametitle{Continued..} 
+\begin{itemize}
+\item 
+\end{itemize}
+}
+
+
+
+\end{document}

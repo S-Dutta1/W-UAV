@@ -1,6 +1,6 @@
 %% %% variables %% %%
-sensor_count=5;
-uav_count=2;
+sensor_count=6;
+uav_count=3;
 v_scaling=uav_count^.5;
 grid_size=uav_count*10;
 velocity=7+5*rand(uav_count,1);
@@ -124,7 +124,7 @@ while(1)
     end
     
     if g==plot_limit
-        plot_now(g,plotter,sensor_count);
+        %plot_now(g,plotter,sensor_count);
     end
     
 end
