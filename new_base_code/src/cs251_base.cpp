@@ -27,7 +27,7 @@
 using namespace std;
 using namespace cs251;
 
-int fires_created=0; int no_of_fires=6;int cop_created=0;const int no_of_cops=5;
+int fires_created=0; int no_of_fires=5;int cop_created=0;const int no_of_cops=4;
 //double dist[no_of_cops][no_of_fires];double assgns[no_of_cops][no_of_fires];// old algo
 //double ages[no_of_fires]; // old algo
 double speed = 10;
@@ -38,6 +38,7 @@ int newok=0,second_cond=0,kk=no_of_cops;
 float closeness_limit = 0.5f;
 double finish = 0,falsefire=0,ffed=0;
 
+int blimp=0;
 base_sim_t::base_sim_t()
 {
 	b2Vec2 gravity;
@@ -150,6 +151,8 @@ void base_sim_t::step(settings_t* settings)
   //int n=bodylist.size();
 //cout<<n<<endl;
 //usleep(3000000);
+
+
   //////////////    Fires   created    ///////////////    
       if(fires_created==0){
 
@@ -374,7 +377,7 @@ if(initialised > 1)
 /****** FALSE FIRE  ********/
 falsefire++;
 //cout<<falsefire <<endl;
-if( falsefire > 500 && ffed==0)
+if( falsefire > 800 && ffed==0)
 {
   while(fire_list.size()>0)
     fire_list.pop_back();
@@ -442,7 +445,7 @@ if( falsefire > 500 && ffed==0)
 /****  Comment below part to continue simulation forever   ****/
 finish++;
 //cout<<finish<<endl;
-if(finish > 2000) //~ 30 secs -- 4000
+if(finish > 2500) //~ 30 secs -- 4000
 {
   for(int i=0;i<no_of_cops;i++)
   {
