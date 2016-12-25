@@ -27,7 +27,7 @@
 using namespace std;
 using namespace cs251;
 
-int fires_created=0; int no_of_fires=5;int cop_created=0;const int no_of_cops=4;
+int fires_created=0; int no_of_fires=3;int cop_created=0;const int no_of_cops=2;
 //double dist[no_of_cops][no_of_fires];double assgns[no_of_cops][no_of_fires];// old algo
 //double ages[no_of_fires]; // old algo
 double speed = 10;
@@ -37,8 +37,8 @@ int initialised=0;
 int newok=0,second_cond=0,kk=no_of_cops;
 float closeness_limit = 0.5f;
 double finish = 0,falsefire=0,ffed=0;
-
-int blimp=0;
+b2Body* obstacle;
+double obsx,obsy,obs_created=0;
 base_sim_t::base_sim_t()
 {
 	b2Vec2 gravity;
@@ -152,7 +152,37 @@ void base_sim_t::step(settings_t* settings)
 //cout<<n<<endl;
 //usleep(3000000);
 
+  /***********   OBSTACLE CREATE   ****************/
+  if(obs_created == 0 ) // best demo fire 6 cops 4&& no_of_cops==4 && no_of_fires==6
+  {
+    b2Vec2 cop_poly[4];
+    cop_poly[0].Set(0, 0);
+    cop_poly[1].Set(2, 3);
+    cop_poly[2].Set(0, 6);
+    cop_poly[3].Set(-2, 3);
 
+    b2PolygonShape cop_sss;
+    cop_sss.Set(cop_poly, 4);  
+  
+    b2FixtureDef bmp;
+    bmp.shape = &cop_sss;
+    bmp.density = 50.0f;
+    bmp.friction = 0.0f;
+    bmp.restitution = 0.0f;
+    b2BodyDef ballbd;
+    ballbd.type = b2_dynamicBody;
+    bmp.filter.categoryBits = 0x0010;
+    bmp.filter.maskBits = 0x0000;// change mask to avoid self collision 
+
+    obsx=-8;obsy=25;
+    ballbd.position.Set(obsx,obsy);
+    obstacle = m_world->CreateBody(&ballbd);
+    obstacle->CreateFixture(&bmp);
+
+    obs_created=1;    
+  }
+
+  /*************************************/
   //////////////    Fires   created    ///////////////    
       if(fires_created==0){
 
@@ -180,6 +210,9 @@ void base_sim_t::step(settings_t* settings)
 ////////////////////////////////////////////////////////////
     b2Vec2 zero_vel;
     zero_vel.x=0;zero_vel.y=0;
+
+    b2Vec2 dodge_vel;
+    dodge_vel.x=0;dodge_vel.y=8.f;
 
  /////////////////    Copters    and   Stations/////////////////////////
 
@@ -348,6 +381,21 @@ if(initialised > 1)
       }
     }
     second_cond = 1;
+
+
+    if(obs_created == 1) // obstacle avoiding
+    {
+      for(int i=0;i<no_of_cops;i++)
+      {
+        if(b2Distance(obstacle->GetWorldCenter(),copter_list[i]->GetWorldCenter())<3.f)
+          {
+            copter_list[i]->SetLinearVelocity(dodge_vel);
+            second_cond=0;
+          }
+      }
+    }
+
+
     if(second_cond == 1)
     {
       for(int i=0;i<no_of_cops;i++)
