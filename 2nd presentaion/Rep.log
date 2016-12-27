@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2016.9.15)  25 DEC 2016 20:46
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2016.9.15)  27 DEC 2016 19:20
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -888,21 +888,23 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 ] [3
 
 ]
-<motion1.png, id=102, 1371.1225pt x 770.88pt>
+<motion1.png, id=96, 1371.1225pt x 770.88pt>
 File: motion1.png Graphic file (type png)
  <use motion1.png>
 Package pdftex.def Info: motion1.png used on input line 53.
 (pdftex.def)             Requested size: 227.62204pt x 127.96605pt.
  [4
 
- <./motion1.png>] <fixed1.png, id=129, 1371.1225pt x 770.88pt>
+ <./motion1.png>] <fixed1.png, id=123, 1371.1225pt x 770.88pt>
 File: fixed1.png Graphic file (type png)
  <use fixed1.png>
 Package pdftex.def Info: fixed1.png used on input line 67.
 (pdftex.def)             Requested size: 227.62204pt x 127.96605pt.
  [5
 
- <./fixed1.png>]
+ <./fixed1.png>] [6
+
+]
 \tf@nav=\write6
 \openout6 = `Rep.nav'.
 
@@ -912,35 +914,44 @@ Package pdftex.def Info: fixed1.png used on input line 67.
 \tf@snm=\write8
 \openout8 = `Rep.snm'.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 69.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 69.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 78.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 78.
  (./Rep.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 69.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 69.
-Package rerunfilecheck Info: File `Rep.out' has not changed.
-(rerunfilecheck)             Checksum: 17FB95035446D65CFC7DE336C8A40E5A;95.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 78.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 78.
 
+
+Package rerunfilecheck Warning: File `Rep.out' has changed.
+(rerunfilecheck)                Rerun to get outlines right
+(rerunfilecheck)                or use package `bookmark'.
+
+Package rerunfilecheck Info: Checksums for `Rep.out':
+(rerunfilecheck)             Before: D41D8CD98F00B204E9800998ECF8427E;0
+(rerunfilecheck)             After:  17FB95035446D65CFC7DE336C8A40E5A;95.
 
 LaTeX Font Warning: Size substitutions with differences
 (Font)              up to 1.0pt have occurred.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 69.
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 78.
  ) 
 Here is how much of TeX's memory you used:
- 15624 strings out of 493304
- 288092 string characters out of 6139871
- 365456 words of memory out of 5000000
- 18684 multiletter control sequences out of 15000+600000
+ 15623 strings out of 493304
+ 288079 string characters out of 6139871
+ 365296 words of memory out of 5000000
+ 18681 multiletter control sequences out of 15000+600000
  10645 words of font info for 39 fonts, out of 8000000 for 9000
  957 hyphenation exceptions out of 8191
  49i,14n,53p,410b,545s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmss10.pfb></us
 r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmss12.pfb></usr/shar
 e/texlive/texmf-dist/fonts/type1/public/amsfonts/symbols/msam10.pfb>
-Output written on Rep.pdf (5 pages, 231754 bytes).
+Output written on Rep.pdf (6 pages, 233638 bytes).
 PDF statistics:
- 172 PDF objects out of 1000 (max. 8388607)
- 152 compressed objects within 2 object streams
- 15 named destinations out of 1000 (max. 500000)
- 69 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 190 PDF objects out of 1000 (max. 8388607)
+ 169 compressed objects within 2 object streams
+ 17 named destinations out of 1000 (max. 500000)
+ 53 words of extra memory for PDF output out of 10000 (max. 10000000)
 

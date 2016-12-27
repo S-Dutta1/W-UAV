@@ -27,7 +27,7 @@
 using namespace std;
 using namespace cs251;
 
-int fires_created=0; int no_of_fires=6;int cop_created=0;const int no_of_cops=4;
+int fires_created=0; int no_of_fires=7;int cop_created=0;const int no_of_cops=5;
 //double dist[no_of_cops][no_of_fires];double assgns[no_of_cops][no_of_fires];// old algo
 //double ages[no_of_fires]; // old algo
 double speed = 10;
@@ -153,8 +153,9 @@ void base_sim_t::step(settings_t* settings)
 //usleep(3000000);
 
   /***********   OBSTACLE CREATE   ****************/
-  if(obs_created == 0 && no_of_cops==4 && no_of_fires==6) // best demo fire 6,3 cops 4,2     && no_of_cops==4 && no_of_fires==6
+  if(obs_created == 0 && no_of_cops==5 && no_of_fires==7) // best demo fire 7,6,3 cops 5,4,2 
   {
+    //&& no_of_cops==4 && no_of_fires==6
     b2Vec2 cop_poly[4];
     cop_poly[0].Set(0, 0);
     cop_poly[1].Set(2, 3);
